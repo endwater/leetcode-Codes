@@ -1,0 +1,21 @@
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        for(int i = 0; i < nums.size(); i++) {
+            int temp_repeat_count = 0;
+            for(int j = i + 1; j < nums.size(); j++) {
+                if(nums[i] == nums[j]) {
+                    temp_repeat_count++;
+                } else {
+                    break;
+                }
+            }
+            if(temp_repeat_count > 1) {
+                for(int k = 0; k < temp_repeat_count - 1; k++) {
+                    nums.erase(nums.begin() + i);
+                }
+                i++;
+            }
+        }
+        return nums.size();
+    }
