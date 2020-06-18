@@ -1,0 +1,12 @@
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        if(nums.size() == 0) return 1;
+        int spi = 1;
+        for(std::vector<int>::iterator it = nums.begin(); it != nums.end();) {
+            if(*it++ == spi) {
+                spi++;
+                it = nums.begin();
+            }
+        }
+        return spi;
+    }
