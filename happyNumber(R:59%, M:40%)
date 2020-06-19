@@ -1,0 +1,17 @@
+public:
+    bool isHappy(int n) {
+        set<int> nums;
+        int sum = 0;
+        while(sum != 1) {
+            if(nums.find(n) != nums.end()) {
+                return false;
+            } 
+            nums.insert(n);
+            for(sum = 0; n > 0; n /= 10) {
+                sum += pow(n % 10, 2);
+            }
+            n = sum;
+        }
+        return true;
+    }
+};
