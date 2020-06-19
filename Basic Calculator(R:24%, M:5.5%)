@@ -1,0 +1,58 @@
+public int calculate(String s) {
+        ArrayList<String> readStr = new ArrayList<String>();
+        ArrayList<String> firstStr = new ArrayList<String>();
+        int result = 0;
+        String tempStr = "";
+        String currentStr = "";
+        //read and split all number and sign in array
+        for(int i = 0; i < s.length(); i++) {
+            currentStr = s.substring(i, i + 1);
+            if(isSign(currentStr)) {
+                readStr.add(tempStr);
+                readStr.add(currentStr);
+                tempStr = "";
+            } else if (!currentStr.equals(" ")) {
+                tempStr += currentStr;
+            }
+        }
+        readStr.add(tempStr);
+        tempStr = "";
+        //calculate all the number with multiply and division
+        for(int i = 0; i < readStr.size() - 1; i++) {
+            if(readStr.get(i).equals("*")) {
+                firstStr.set(firstStr.size() - 1, Integer.toString(Integer.valueOf(firstStr.get(firstStr.size() - 1)) 
+                                      * Integer.valueOf(readStr.get(++i)))); // n * n
+            } else if (readStr.get(i).equals("/")) {
+                firstStr.set(firstStr.size() - 1, Integer.toString(Integer.valueOf(firstStr.get(firstStr.size() - 1)) 
+                                          / Integer.valueOf(readStr.get(++i)))); // n / n
+            } else {
+                firstStr.add(readStr.get(i));
+            }
+        }
+        if(firstStr.size() == 0) {
+        	firstStr.add(readStr.get(0));
+        } else if(isSign(firstStr.get(firstStr.size() - 1))) {
+            firstStr.add(readStr.get(readStr.size() - 1));
+        }
+        //calculate the final number
+        for(int i = 0; i < firstStr.size() - 1; i++) {
+            currentStr = firstStr.get(i);
+            if(currentStr.equals("+")) {
+                result += Integer.valueOf(firstStr.get(i + 1));
+                i++;
+            } else if(currentStr.equals("-")) {
+                result -= Integer.valueOf(firstStr.get(i + 1));
+                i++;
+            } else if (i == 0) {
+                result = Integer.valueOf(currentStr);
+            }
+        }
+        if(firstStr.size() == 1) {
+        	result = Integer.valueOf(firstStr.get(0));
+        }
+        return result;
+    }
+    private boolean isSign(String theStr) {
+        return theStr.equals("+") || theStr.equals("-")
+            || theStr.equals("*") || theStr.equals("/");
+    }
