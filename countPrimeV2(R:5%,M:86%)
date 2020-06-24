@@ -1,0 +1,19 @@
+public:
+    int countPrimes(int n) {
+        int count = 1;
+        if (n <= 2) {
+            return 0;
+        }
+        for(int i = 2; i < n; i++) {
+            for(int j = 2; j < n; j++) {
+                if(i % j == 0) {
+                    break;
+                }
+                if((double)j > sqrt(i)) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
