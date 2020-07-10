@@ -1,0 +1,65 @@
+class Solution {
+    private int[] digits = new int[4];
+    private int smallestNum = 10;
+    public String nextClosestTime(String time) {
+        int j = 0;
+        //convert into int array
+        for(int i = 0; i < 5; i++, j++) {
+            digits[j] = Character.getNumericValue(time.charAt(i));
+            if(smallestNum > digits[j]) {
+                smallestNum = digits[j];
+            }
+            if(i == 1) {
+                i++;
+            }
+        }
+        //starting checking from the last digit to the first digit
+        int validateNum = hasBigger(digits[3]);
+        if(validateNum < 10) {
+            digits[3] = validateNum;
+            return getTime();
+        } 
+        validateNum = hasBigger(digits[2]);
+        if(validateNum < 6) {
+            digits[2] = validateNum;
+            digits[3] = smallestNum;
+            return getTime();
+        }
+        validateNum = hasBigger(digits[1]);
+        if(validateNum < 4 || (digits[0] < 2 &&
+                              validateNum < 10)) {
+            digits[1] = validateNum;
+            digits[2] = smallestNum;
+            digits[3] = smallestNum;
+            return getTime();
+        }
+        validateNum = hasBigger(digits[0]);
+        if(validateNum < 3) {
+            digits[0] = validateNum;
+            digits[1] = smallestNum;
+            digits[2] = smallestNum;
+            digits[3] = smallestNum;
+            return getTime();
+        }
+        //if no bigger time today, go find the next smallest time.
+        for(int i = 0; i < 4; i++) {
+            digits[i] = smallestNum;
+        }
+        return getTime();
+    }
+    //find possible bigger number
+    public int hasBigger(final int num) {
+        int temp = 10;
+        for(int i = 0; i < 4; i++) {
+            if(num < digits[i] && temp > digits[i]) {
+                temp = digits[i];
+            }
+        }
+        return temp;
+    }
+    //covert time from int array to string
+    public String getTime() {
+        return Integer.toString(digits[0]) + Integer.toString(digits[1])
+            + ":" + Integer.toString(digits[2]) + Integer.toString(digits[3]);
+    }
+}
